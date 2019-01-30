@@ -24,3 +24,10 @@ function Invoke-TervisTopCustomerReportExport {
     Export-TervisExcelCustomerReports -Workbook ([ref]$Workbook) -ExportDirectory $ExportDirectory
     Stop-ExcelInstance -ExcelInstance ([ref]$Excel) -SaveBeforeQuit
 }
+
+function Invoke-ExcelTaskApplicationProvision {
+    $ApplicationName = "ExcelTask"
+    $EnvironmentName = "Infrastructure"
+    Invoke-ApplicationProvision -ApplicationName $ApplicationName -EnvironmentName $EnvironmentName
+    $Nodes = Get-TervisApplicationNode -ApplicationName $ApplicationName -EnvironmentName $EnvironmentName
+}
