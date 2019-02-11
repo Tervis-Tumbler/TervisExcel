@@ -33,5 +33,5 @@ function Invoke-ExcelTaskApplicationProvision {
     $Nodes | Set-AutoLogonOnNode -PasswordstateId 5574
     $Credential = Get-PasswordstatePassword -ID 5574 -AsCredential
     $Action = New-ScheduledTaskAction -Execute "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -Argument "-Command Invoke-TervisTopCustomerReportExtract"
-    $Nodes | Install-TervisScheduledTask -TaskName "Top Customer Report Extract" -Action $Action -RepetitionIntervalName "EveryDayAt730am" -Credential $Credential -LogonTypeInteractive
+    $Nodes | Install-TervisScheduledTask -TaskName "Top Customer Report Extract" -Action $Action -RepetitionIntervalName "EveryDayAt730am" -Credential $Credential -RunOnlyWhenUserIsLoggedOn
 }
