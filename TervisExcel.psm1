@@ -5,7 +5,7 @@ function Export-TervisExcelCustomerReports {
     )
     
     $Date = Get-Date -Format "yyyy-MM-dd HH.mm"
-    $WorksheetNamesToExport = "By Channel", "ITC (By Sales Rep)", "By Channel (Qtrly)", "TOP SUMMARY SHEET"
+    $WorksheetNamesToExport = "By Channel", "ITC (By Sales Rep)", "By Channel (Qtrly)", "TOP SUMMARY SHEET", "3 mth forecast"
     $Workbook.Value.Sheets | Where-Object "Name" -In $WorksheetNamesToExport | ForEach-Object {
         $ExportPath = Join-Path -Path $ExportDirectory -ChildPath "$Date $($_.Name).pdf"
         $_.ExportAsFixedFormat(0, $ExportPath)
