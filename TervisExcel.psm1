@@ -14,8 +14,9 @@ function Export-TervisExcelCustomerReports {
 
 function Invoke-TervisTopCustomerReportExtract {
     param (
-        $ReportCredential = (Get-PasswordstatePassword -ID 5699)
+        $ReportCredentialPID = 5699
     )
+    $ReportCredential = Get-PasswordstatePassword -ID $ReportCredentialPID
     $ReportParameters = $ReportCredential.GenericField1 | ConvertFrom-Json
 
     $Excel = New-ExcelInstance
