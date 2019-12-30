@@ -13,7 +13,9 @@ function Export-TervisExcelCustomerReports {
 }
 
 function Invoke-TervisTopCustomerReportExtract {
-    $ReportCredential = Get-PasswordstatePassword -ID 5699
+    param (
+        $ReportCredential = (Get-PasswordstatePassword -ID 5699)
+    )
     $ReportParameters = $ReportCredential.GenericField1 | ConvertFrom-Json
 
     $Excel = New-ExcelInstance
@@ -32,6 +34,6 @@ function Invoke-ExcelTaskApplicationProvision {
     $Nodes | ForEach-Object {Invoke-Command -ComputerName $_.ComputerName -ScriptBlock {Add-LocalGroupMember -Group Administrators -Member "Privilege_InfrastructureScheduledTasksAdministrator"}}
     $Nodes | Set-AutoLogonOnNode -PasswordstateId 5574
     $Credential = Get-PasswordstatePassword -ID 5574 -AsCredential
-    $Action = New-ScheduledTaskAction -Execute "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -Argument "-Command Invoke-TervisTopCustomerReportExtract"
+    $Action = New-ScheduledTaskAction -Execute "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -Argument "-Command Invoke-TervisTopCustomerReportExtract -ReportCredential 5924" # for year 2020
     $Nodes | Install-TervisScheduledTask -TaskName "Top Customer Report Extract" -Action $Action -RepetitionIntervalName "EveryDayAt730am" -Credential $Credential -RunOnlyWhenUserIsLoggedOn
 }
