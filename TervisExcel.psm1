@@ -3,13 +3,16 @@ function Export-TervisExcelCustomerReports {
         [Parameter(Mandatory)][ref]$Workbook,
         [Parameter(Mandatory)]$ExportDirectory
     )
-    
+
     $Date = Get-Date -Format "yyyy-MM-dd HH.mm"
-    $WorksheetNamesToExport = "By Channel", "ITC (By Sales Rep)", "By Channel (Qtrly)", "TOP SUMMARY SHEET", "3 mth forecast"
+    $WorksheetNamesToExport = "By Channel", "ITC (By Sales Rep)", "By Channel (Qtrly)", "TOP SUMMARY SHEET", "3 mth forecast", "3 months comments"
     $Workbook.Value.Sheets | Where-Object "Name" -In $WorksheetNamesToExport | ForEach-Object {
-        $ExportPath = Join-Path -Path $ExportDirectory -ChildPath "$Date $($_.Name).pdf"
+        $Filename = "$Date $($_.Name).pdf"
+        Write-Progress -Activity "Tervis Customer Report Export" -Status "Exporting files" -CurrentOperation $Filename
+        $ExportPath = Join-Path -Path $ExportDirectory -ChildPath $Filename
         $_.ExportAsFixedFormat(0, $ExportPath)
     }
+    Write-Progress -Activity "Tervis Customer Report Export" -Completed
 }
 
 function Invoke-TervisTopCustomerReportExtract {
